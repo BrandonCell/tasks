@@ -8,13 +8,13 @@ export function bookEndList(numbers: number[]): number[] {
     const newList: number[] = [];
     if (numbers.length < 1) {
         return newList;
-    } else if (numbers.length === 1) {
-        newList.splice(0, 1, numbers[0]);
-        newList.splice(1, 0, numbers[0]);
+    }
+    newList.push(numbers[0]);
+    if (numbers.length === 1) {
+        newList.push(newList[0]);
         return newList;
     }
-    newList.splice(0, 1, numbers[0]);
-    newList.splice(1, 0, numbers[numbers.length - 1]);
+    newList.push(numbers[numbers.length - 1]);
     return newList;
 }
 
@@ -110,7 +110,17 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    const sum = addends.reduce(
+        (currentTotal: number, num: number) => currentTotal + num,
+        0
+    );
+    const addendsString = addends.join("+");
+    if (addendsString === "") {
+        const totalExpression = `${sum}=0`;
+        return totalExpression;
+    }
+    const totalExpression = `${sum}=${addendsString}`;
+    return totalExpression;
 }
 
 /**
@@ -123,5 +133,24 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    const firstNegativeNumberLocation = values.findIndex(
+        (value: number): boolean => value < 0
+    );
+    if (firstNegativeNumberLocation < 0) {
+        const sum = values.reduce(
+            (currentTotal: number, num: number) => currentTotal + num,
+            0
+        );
+        const newList = [...values];
+        newList.push(sum);
+        return newList;
+    }
+    const limitedList = values.slice(0, firstNegativeNumberLocation);
+    const sum = limitedList.reduce(
+        (currentTotal: number, num: number) => currentTotal + num,
+        0
+    );
+    const newList = [...values];
+    newList.splice(firstNegativeNumberLocation + 1, 0, sum);
+    return newList;
 }
