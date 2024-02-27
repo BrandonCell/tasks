@@ -11,7 +11,8 @@ export function makeBlankQuestion(
     name: string,
     type: QuestionType
 ): Question {
-    return {id:id, name:name,body:"",type:type,options:[],expected:"",points:1,published:false};
+    const newQuestion = {id:id, name:name,body:"",type:type,options:[],expected:"",points:1,published:false}
+    return newQuestion;
 }
 
 /**
@@ -22,7 +23,9 @@ export function makeBlankQuestion(
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
-    return answer.toLowerCase().trim() === question.expected.toLowerCase().trim();
+    const cleanAnswer =answer.toLowerCase().trim() ;
+    const cleanQuestion = question.expected.toLowerCase().trim()
+    return cleanAnswer === cleanQuestion;
 }
 
 
@@ -36,7 +39,8 @@ export function isValid(question: Question, answer: string): boolean {
     if(question.type === "short_answer_question"){
         return true;
     }
-    return question.options.filter((index: string): boolean =>index === answer)[0] !== undefined;
+    const validOptions = question.options.filter((index: string): boolean =>index === answer)
+    return validOptions[0] !== undefined;
 }
 
 /**
@@ -46,7 +50,8 @@ export function isValid(question: Question, answer: string): boolean {
  * name "My First Question" would become "9: My First Q".
  */
 export function toShortForm(question: Question): string {
-    return question.id + ": " + question.name.slice(0,10);
+    const slicedName = question.name.slice(0,10)
+    return question.id + ": " + slicedName;
 }
 
 /**
