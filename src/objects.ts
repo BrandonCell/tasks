@@ -6,12 +6,8 @@ import { Question, QuestionType } from "./interfaces/question";
  * `expected` should be empty strings, the `options` should be an empty list, the `points`
  * should default to 1, and `published` should default to false.
  */
-export function makeBlankQuestion(
-    id: number,
-    name: string,
-    type: QuestionType
-): Question {
-    const newQuestion = {id:id, name:name,body:"",type:type,options:[],expected:"",points:1,published:false}
+export function makeBlankQuestion(id: number,name: string,type: QuestionType): Question {
+    const newQuestion = {id:id, name:name,body:"",type:type,options:[],expected:"",points:1,published:false};
     return newQuestion;
 }
 
@@ -23,8 +19,8 @@ export function makeBlankQuestion(
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
-    const cleanAnswer =answer.toLowerCase().trim() ;
-    const cleanQuestion = question.expected.toLowerCase().trim()
+    const cleanAnswer =answer.toLowerCase().trim();
+    const cleanQuestion = question.expected.toLowerCase().trim();
     return cleanAnswer === cleanQuestion;
 }
 
@@ -39,7 +35,7 @@ export function isValid(question: Question, answer: string): boolean {
     if(question.type === "short_answer_question"){
         return true;
     }
-    const validOptions = question.options.filter((index: string): boolean =>index === answer)
+    const validOptions = question.options.filter((index: string): boolean =>index === answer);
     return validOptions[0] !== undefined;
 }
 
@@ -50,7 +46,7 @@ export function isValid(question: Question, answer: string): boolean {
  * name "My First Question" would become "9: My First Q".
  */
 export function toShortForm(question: Question): string {
-    const slicedName = question.name.slice(0,10)
+    const slicedName = question.name.slice(0,10);
     return question.id + ": " + slicedName;
 }
 
@@ -72,13 +68,13 @@ export function toShortForm(question: Question): string {
  * Check the unit tests for more examples of what this looks like!
  */
 export function toMarkdown(question: Question): string {
-    const firstString:string= "# " + question.name + "\n";
-    const secondString:string= question.body;
-    let thirdString:string="";
+    const firstString: string = "# " + question.name + "\n";
+    const secondString: string = question.body;
+    let thirdString: string ="";
     if(question.type === "multiple_choice_question"){
         //I'm using a for loop because I don't know how else to get each string out of the array
-        question.options.forEach(item=>{
-            thirdString +="\n- " + item;
+        question.options.forEach(item => {
+            thirdString += "\n- " + item;
         })
         }
 
@@ -90,7 +86,7 @@ export function toMarkdown(question: Question): string {
  * `newName`.
  */
 export function renameQuestion(question: Question, newName: string): Question {
-    const newQuestion = {...question, name: newName}
+    const newQuestion = {...question, name: newName};
     return newQuestion;
 }
 
@@ -137,12 +133,7 @@ export function addOption(question: Question, newOption: string): Question {
  * Notice that the second Question is provided as just an object with a `points`
  * field; but the function call would be the same as if it were a `Question` type!
  */
-export function mergeQuestion(
-    id: number,
-    name: string,
-    contentQuestion: Question,
-    { points }: { points: number }
-): Question {
+export function mergeQuestion(id: number,name: string,contentQuestion: Question,{ points }: { points: number }): Question {
     const newQuestion = {...contentQuestion,id:id,name:name,published:false,points:points};
     return newQuestion;
 }
