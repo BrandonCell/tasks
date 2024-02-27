@@ -26,7 +26,8 @@
         "eject": "react-scripts eject",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build",
-        "lint": "eslint ./src --ext .tsx --ext .ts --max-warnings 0"
+        "lint": "eslint ./src --ext .tsx --ext .ts --max-warnings 0",
+        "format": "prettier --config .prettierrc --write src/**/*.{ts,tsx}"
     },
     "eslintConfig": {
         "extends": [
