@@ -1,5 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -103,7 +104,10 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    const newObject = [...questions];
+    let answerArray: Answer[] = [];
+    answerArray = newObject.map((question: Question) => ({questionId: question.id,text: "",submitted: false,correct: false}));
+    return answerArray;
 }
 
 /***
@@ -111,7 +115,9 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    const newObject = [...questions];
+    const newArray = newObject.map((question: Question) => ({...question, published: true}));
+    return newArray;
 }
 
 /***
@@ -119,6 +125,11 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
+    const newObject = [...questions];
+    const newArray = newObject.filter((question: Question): boolean => question.type === "multiple_choice_question");
+    if(newArray.length === 0 || newArray.length === newObject.length){//either they all equal^^ or none of them equal it
+        return true;
+    }
     return false;
 }
 
@@ -127,13 +138,11 @@ export function sameType(questions: Question[]): boolean {
  * except that a blank question has been added onto the end. Reuse the `makeBlankQuestion`
  * you defined in the `objects.ts` file.
  */
-export function addNewQuestion(
-    questions: Question[],
-    id: number,
-    name: string,
-    type: QuestionType
-): Question[] {
-    return [];
+export function addNewQuestion(questions: Question[],id: number,name: string,type: QuestionType): Question[] {
+    const newQuestion = makeBlankQuestion(id,name,type);
+    const newObject = [...questions];
+    newObject.push(newQuestion);
+    return newObject;
 }
 
 /***
@@ -141,11 +150,7 @@ export function addNewQuestion(
  * the Questions are the same EXCEPT for the one with the given `targetId`. That
  * Question should be the same EXCEPT that its name should now be `newName`.
  */
-export function renameQuestionById(
-    questions: Question[],
-    targetId: number,
-    newName: string
-): Question[] {
+export function renameQuestionById(questions: Question[],targetId: number,newName: string): Question[] {
     return [];
 }
 
