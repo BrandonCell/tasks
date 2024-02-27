@@ -1,13 +1,25 @@
 import { Question, QuestionType } from "./interfaces/question";
 
-
 /**
  * Create a new blank question with the given `id`, `name`, and `type. The `body` and
  * `expected` should be empty strings, the `options` should be an empty list, the `points`
  * should default to 1, and `published` should default to false.
  */
-export function makeBlankQuestion(id: number,name: string,type: QuestionType): Question {
-    const newQuestion = {id:id, name:name,body:"",type:type,options:[],expected:"",points:1,published:false};
+export function makeBlankQuestion(
+    id: number,
+    name: string,
+    type: QuestionType
+): Question {
+    const newQuestion = {
+        id: id,
+        name: name,
+        body: "",
+        type: type,
+        options: [],
+        expected: "",
+        points: 1,
+        published: false
+    };
     return newQuestion;
 }
 
@@ -19,12 +31,10 @@ export function makeBlankQuestion(id: number,name: string,type: QuestionType): Q
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
-    const cleanAnswer =answer.toLowerCase().trim();
+    const cleanAnswer = answer.toLowerCase().trim();
     const cleanQuestion = question.expected.toLowerCase().trim();
     return cleanAnswer === cleanQuestion;
 }
-
-
 /**
  * Consumes a question and a potential `answer`, and returns whether or not
  * the `answer` is valid (but not necessarily correct). For a `short_answer_question`,
@@ -32,10 +42,12 @@ export function isCorrect(question: Question, answer: string): boolean {
  * be exactly one of the options.
  */
 export function isValid(question: Question, answer: string): boolean {
-    if(question.type === "short_answer_question"){
+    if (question.type === "short_answer_question") {
         return true;
     }
-    const validOptions = question.options.filter((index: string): boolean =>index === answer);
+    const validOptions = question.options.filter(
+        (index: string): boolean => index === answer
+    );
     return validOptions[0] !== undefined;
 }
 
@@ -46,7 +58,7 @@ export function isValid(question: Question, answer: string): boolean {
  * name "My First Question" would become "9: My First Q".
  */
 export function toShortForm(question: Question): string {
-    const slicedName = question.name.slice(0,10);
+    const slicedName = question.name.slice(0, 10);
     return question.id + ": " + slicedName;
 }
 
@@ -70,13 +82,15 @@ export function toShortForm(question: Question): string {
 export function toMarkdown(question: Question): string {
     const firstString: string = "# " + question.name + "\n";
     const secondString: string = question.body;
-    let thirdString: string ="";
-    if(question.type === "multiple_choice_question"){
-        //I'm using a for loop because I don't know how else to get each string out of the array
-        question.options.forEach(item => {
-            thirdString += "\n- " + item;
-        })
-        }
+    let thirdString = "";
+    const duplicate = { ...question };
+    if (question.type === "multiple_choice_question") {
+        thirdString = duplicate.options.reduce(
+            (returnString: string, option: string): string =>
+                returnString + "\n- " + option,
+            ""
+        );
+    }
 
     return firstString + secondString + thirdString;
 }
@@ -86,7 +100,7 @@ export function toMarkdown(question: Question): string {
  * `newName`.
  */
 export function renameQuestion(question: Question, newName: string): Question {
-    const newQuestion = {...question, name: newName};
+    const newQuestion = { ...question, name: newName };
     return newQuestion;
 }
 
@@ -96,7 +110,7 @@ export function renameQuestion(question: Question, newName: string): Question {
  * published; if it was published, now it should be not published.
  */
 export function publishQuestion(question: Question): Question {
-    const newQuestion = {...question, published: !question.published};
+    const newQuestion = { ...question, published: !question.published };
     return newQuestion;
 }
 
@@ -107,7 +121,12 @@ export function publishQuestion(question: Question): Question {
  * The `published` field should be reset to false.
  */
 export function duplicateQuestion(id: number, oldQuestion: Question): Question {
-    const newQuestion={...oldQuestion,id:id, name:"Copy of " + oldQuestion.name, published:false};
+    const newQuestion = {
+        ...oldQuestion,
+        id: id,
+        name: "Copy of " + oldQuestion.name,
+        published: false
+    };
     return newQuestion;
 }
 
@@ -121,7 +140,7 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
 export function addOption(question: Question, newOption: string): Question {
     const newOptionList = [...question.options];
     newOptionList.push(newOption);
-    const newQuestion = {...question, options:newOptionList};
+    const newQuestion = { ...question, options: newOptionList };
     return newQuestion;
 }
 
@@ -133,7 +152,18 @@ export function addOption(question: Question, newOption: string): Question {
  * Notice that the second Question is provided as just an object with a `points`
  * field; but the function call would be the same as if it were a `Question` type!
  */
-export function mergeQuestion(id: number,name: string,contentQuestion: Question,{ points }: { points: number }): Question {
-    const newQuestion = {...contentQuestion,id:id,name:name,published:false,points:points};
+export function mergeQuestion(
+    id: number,
+    name: string,
+    contentQuestion: Question,
+    { points }: { points: number }
+): Question {
+    const newQuestion = {
+        ...contentQuestion,
+        id: id,
+        name: name,
+        published: false,
+        points: points
+    };
     return newQuestion;
 }
