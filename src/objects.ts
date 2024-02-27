@@ -71,11 +71,10 @@ export function toMarkdown(question: Question): string {
     const firstString: string = "# " + question.name + "\n";
     const secondString: string = question.body;
     let thirdString: string ="";
+    const duplicate = {...question};
     if(question.type === "multiple_choice_question"){
-        //I'm using a for loop because I don't know how else to get each string out of the array
-        question.options.forEach(item => {
-            thirdString += "\n- " + item;
-        })
+       thirdString = duplicate.options.reduce((returnString: string,option: string):string => returnString + "\n- " + option,"");
+       //return firstString + secondString + "\n- " + thirdString;
         }
 
     return firstString + secondString + thirdString;
