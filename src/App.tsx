@@ -48,7 +48,7 @@ function App(): JSX.Element {
                                 backgroundColor: "red"
                             }}
                         ></div>
-                        <p>Picture Time:</p>
+                        <p>Image:</p>
                         <img
                             src={require("./images/diner.jpeg")}
                             width="300"
