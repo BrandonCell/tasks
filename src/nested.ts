@@ -1,6 +1,8 @@
+/* eslint-disable indent */
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
 import { makeBlankQuestion } from "./objects";
+import { duplicateQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -212,7 +214,13 @@ export function renameQuestionById(
     targetId: number,
     newName: string
 ): Question[] {
-    return [];
+    const newQuestion = [...questions];
+    const newArray = newQuestion.map((question: Question) =>
+        question.id === targetId
+            ? { ...question, name: newName }
+            : { ...question }
+    );
+    return newArray;
 }
 
 /***
@@ -227,7 +235,22 @@ export function changeQuestionTypeById(
     targetId: number,
     newQuestionType: QuestionType
 ): Question[] {
-    return [];
+    const newQuestion = [...questions];
+    let newArray: Question[] = [];
+    if (newQuestionType === "multiple_choice_question") {
+        newArray = newQuestion.map((question: Question) =>
+            question.id === targetId
+                ? { ...question, type: newQuestionType }
+                : { ...question }
+        );
+    } else {
+        newArray = newQuestion.map((question: Question) =>
+            question.id === targetId
+                ? { ...question, type: newQuestionType, options: [] }
+                : { ...question }
+        );
+    }
+    return newArray;
 }
 
 /**
@@ -240,13 +263,41 @@ export function changeQuestionTypeById(
  * Remember, if a function starts getting too complicated, think about how a helper function
  * can make it simpler! Break down complicated tasks into little pieces.
  */
+export function editOptionHelper(
+    options: string[],
+    newOption: string,
+    id: number
+): string[] {
+    const newStringArray = [...options];
+    if (id === -1) {
+        newStringArray.push(newOption);
+    } else {
+        newStringArray.splice(id, 1, newOption);
+    }
+    return newStringArray;
+}
 export function editOption(
     questions: Question[],
     targetId: number,
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    const newQuestion = [...questions];
+    const newArray = newQuestion.map((question: Question) =>
+        question.id === targetId
+            ? {
+                  ...question,
+                  options: editOptionHelper(
+                      // eslint-disable-next-line indent
+                      //^^it kept on trying to indent and when it indented it tried to indent again and it kept on doing this forever
+                      [...question.options],
+                      newOption,
+                      targetOptionIndex
+                  )
+              }
+            : { ...question }
+    );
+    return newArray;
 }
 
 /***
@@ -260,5 +311,16 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    const newArray = [...questions];
+
+    //since ID's are unique, there can only be one instance of a duplicate
+    const duplicateLocation = newArray.findIndex(
+        (question: Question): boolean => question.id === targetId
+    );
+    if (duplicateLocation !== -1) {
+        const duplicate = duplicateQuestion(newId, newArray[duplicateLocation]);
+        newArray.splice(duplicateLocation + 1, 0, duplicate);
+    }
+
+    return newArray;
 }
