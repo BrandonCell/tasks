@@ -1,6 +1,8 @@
+/* eslint-disable indent */
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
 import { makeBlankQuestion } from "./objects";
+import { duplicateQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -8,7 +10,9 @@ import { makeBlankQuestion } from "./objects";
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
     const newObject = [...questions];
-    const newArray = newObject.filter((question: Question): boolean => question.published);
+    const newArray = newObject.filter(
+        (question: Question): boolean => question.published
+    );
     return newArray;
 }
 
@@ -19,7 +23,14 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
     const newObject = [...questions];
-    const newArray = newObject.filter((question: Question): boolean => !(question.body === "" && question.expected === "" && question.options.length === 0));
+    const newArray = newObject.filter(
+        (question: Question): boolean =>
+            !(
+                question.body === "" &&
+                question.expected === "" &&
+                question.options.length === 0
+            )
+    );
     return newArray;
 }
 
@@ -27,10 +38,15 @@ export function getNonEmptyQuestions(questions: Question[]): Question[] {
  * Consumes an array of questions and returns the question with the given `id`. If the
  * question is not found, return `null` instead.
  */
-export function findQuestion(questions: Question[],id: number): Question | null {
+export function findQuestion(
+    questions: Question[],
+    id: number
+): Question | null {
     const newObject = [...questions];
-    const newArray = newObject.filter((question: Question): boolean => question.id === id);
-    if(newArray.length !== 0){
+    const newArray = newObject.filter(
+        (question: Question): boolean => question.id === id
+    );
+    if (newArray.length !== 0) {
         return newArray[0];
     }
     return null;
@@ -42,7 +58,9 @@ export function findQuestion(questions: Question[],id: number): Question | null 
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
     const newObject = [...questions];
-    const newArray = newObject.filter((question: Question): boolean => !(question.id === id));
+    const newArray = newObject.filter(
+        (question: Question): boolean => !(question.id === id)
+    );
     return newArray;
 }
 
@@ -52,7 +70,9 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  */
 export function getNames(questions: Question[]): string[] {
     const newObject = [...questions];
-    const stringArray = newObject.map((question: Question): string=> question.name);
+    const stringArray = newObject.map(
+        (question: Question): string => question.name
+    );
     return stringArray;
 }
 
@@ -61,7 +81,10 @@ export function getNames(questions: Question[]): string[] {
  */
 export function sumPoints(questions: Question[]): number {
     const newObject = [...questions];
-    const pointSum = newObject.reduce((currTotal: number, question: Question) => currTotal + question.points,0);
+    const pointSum = newObject.reduce(
+        (currTotal: number, question: Question) => currTotal + question.points,
+        0
+    );
     return pointSum;
 }
 
@@ -70,8 +93,13 @@ export function sumPoints(questions: Question[]): number {
  */
 export function sumPublishedPoints(questions: Question[]): number {
     const newObject = [...questions];
-    const newArray = newObject.filter((question: Question): boolean => question.published);
-    const pointSum = newArray.reduce((currTotal: number, question: Question) => currTotal + question.points,0);
+    const newArray = newObject.filter(
+        (question: Question): boolean => question.published
+    );
+    const pointSum = newArray.reduce(
+        (currTotal: number, question: Question) => currTotal + question.points,
+        0
+    );
     return pointSum;
 }
 
@@ -94,7 +122,21 @@ id,name,options,points,published
  */
 export function toCSV(questions: Question[]): string {
     const newObject = [...questions];
-    const csvString = newObject.reduce((newString: string, question: Question)=>newString + "\n" + question.id + "," + question.name + "," + question.options.length + "," + question.points + "," + question.published,"id,name,options,points,published");
+    const csvString = newObject.reduce(
+        (newString: string, question: Question) =>
+            newString +
+            "\n" +
+            question.id +
+            "," +
+            question.name +
+            "," +
+            question.options.length +
+            "," +
+            question.points +
+            "," +
+            question.published,
+        "id,name,options,points,published"
+    );
     return csvString;
 }
 
@@ -106,7 +148,12 @@ export function toCSV(questions: Question[]): string {
 export function makeAnswers(questions: Question[]): Answer[] {
     const newObject = [...questions];
     let answerArray: Answer[] = [];
-    answerArray = newObject.map((question: Question) => ({questionId: question.id,text: "",submitted: false,correct: false}));
+    answerArray = newObject.map((question: Question) => ({
+        questionId: question.id,
+        text: "",
+        submitted: false,
+        correct: false
+    }));
     return answerArray;
 }
 
@@ -116,7 +163,10 @@ export function makeAnswers(questions: Question[]): Answer[] {
  */
 export function publishAll(questions: Question[]): Question[] {
     const newObject = [...questions];
-    const newArray = newObject.map((question: Question) => ({...question, published: true}));
+    const newArray = newObject.map((question: Question) => ({
+        ...question,
+        published: true
+    }));
     return newArray;
 }
 
@@ -126,8 +176,12 @@ export function publishAll(questions: Question[]): Question[] {
  */
 export function sameType(questions: Question[]): boolean {
     const newObject = [...questions];
-    const newArray = newObject.filter((question: Question): boolean => question.type === "multiple_choice_question");
-    if(newArray.length === 0 || newArray.length === newObject.length){//either they all equal^^ or none of them equal it
+    const newArray = newObject.filter(
+        (question: Question): boolean =>
+            question.type === "multiple_choice_question"
+    );
+    if (newArray.length === 0 || newArray.length === newObject.length) {
+        //either they all equal^^ or none of them equal it
         return true;
     }
     return false;
@@ -138,8 +192,13 @@ export function sameType(questions: Question[]): boolean {
  * except that a blank question has been added onto the end. Reuse the `makeBlankQuestion`
  * you defined in the `objects.ts` file.
  */
-export function addNewQuestion(questions: Question[],id: number,name: string,type: QuestionType): Question[] {
-    const newQuestion = makeBlankQuestion(id,name,type);
+export function addNewQuestion(
+    questions: Question[],
+    id: number,
+    name: string,
+    type: QuestionType
+): Question[] {
+    const newQuestion = makeBlankQuestion(id, name, type);
     const newObject = [...questions];
     newObject.push(newQuestion);
     return newObject;
@@ -150,8 +209,18 @@ export function addNewQuestion(questions: Question[],id: number,name: string,typ
  * the Questions are the same EXCEPT for the one with the given `targetId`. That
  * Question should be the same EXCEPT that its name should now be `newName`.
  */
-export function renameQuestionById(questions: Question[],targetId: number,newName: string): Question[] {
-    return [];
+export function renameQuestionById(
+    questions: Question[],
+    targetId: number,
+    newName: string
+): Question[] {
+    const newQuestion = [...questions];
+    const newArray = newQuestion.map((question: Question) =>
+        question.id === targetId
+            ? { ...question, name: newName }
+            : { ...question }
+    );
+    return newArray;
 }
 
 /***
@@ -166,7 +235,22 @@ export function changeQuestionTypeById(
     targetId: number,
     newQuestionType: QuestionType
 ): Question[] {
-    return [];
+    const newQuestion = [...questions];
+    let newArray: Question[] = [];
+    if (newQuestionType === "multiple_choice_question") {
+        newArray = newQuestion.map((question: Question) =>
+            question.id === targetId
+                ? { ...question, type: newQuestionType }
+                : { ...question }
+        );
+    } else {
+        newArray = newQuestion.map((question: Question) =>
+            question.id === targetId
+                ? { ...question, type: newQuestionType, options: [] }
+                : { ...question }
+        );
+    }
+    return newArray;
 }
 
 /**
@@ -179,13 +263,41 @@ export function changeQuestionTypeById(
  * Remember, if a function starts getting too complicated, think about how a helper function
  * can make it simpler! Break down complicated tasks into little pieces.
  */
+export function editOptionHelper(
+    options: string[],
+    newOption: string,
+    id: number
+): string[] {
+    const newStringArray = [...options];
+    if (id === -1) {
+        newStringArray.push(newOption);
+    } else {
+        newStringArray.splice(id, 1, newOption);
+    }
+    return newStringArray;
+}
 export function editOption(
     questions: Question[],
     targetId: number,
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    const newQuestion = [...questions];
+    const newArray = newQuestion.map((question: Question) =>
+        question.id === targetId
+            ? {
+                  ...question,
+                  options: editOptionHelper(
+                      // eslint-disable-next-line indent
+                      //^^it kept on trying to indent and when it indented it tried to indent again and it kept on doing this forever
+                      [...question.options],
+                      newOption,
+                      targetOptionIndex
+                  )
+              }
+            : { ...question }
+    );
+    return newArray;
 }
 
 /***
@@ -199,5 +311,16 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    const newArray = [...questions];
+
+    //since ID's are unique, there can only be one instance of a duplicate
+    const duplicateLocation = newArray.findIndex(
+        (question: Question): boolean => question.id === targetId
+    );
+    if (duplicateLocation !== -1) {
+        const duplicate = duplicateQuestion(newId, newArray[duplicateLocation]);
+        newArray.splice(duplicateLocation + 1, 0, duplicate);
+    }
+
+    return newArray;
 }
