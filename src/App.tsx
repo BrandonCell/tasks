@@ -13,6 +13,7 @@ function App(): JSX.Element {
             <header className="App-header">
                 Brandon Cell - UD CISC275 - Hello World!
             </header>
+
             <hr></hr>
             <Counter></Counter>
             <hr />
@@ -25,6 +26,7 @@ function App(): JSX.Element {
             <ChangeType></ChangeType>
             <hr />
             <CycleHoliday></CycleHoliday>
+
         </div>
     );
 }
