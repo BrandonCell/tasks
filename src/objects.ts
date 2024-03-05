@@ -35,7 +35,6 @@ export function isCorrect(question: Question, answer: string): boolean {
     const cleanQuestion = question.expected.toLowerCase().trim();
     return cleanAnswer === cleanQuestion;
 }
-
 /**
  * Consumes a question and a potential `answer`, and returns whether or not
  * the `answer` is valid (but not necessarily correct). For a `short_answer_question`,
@@ -91,7 +90,6 @@ export function toMarkdown(question: Question): string {
                 returnString + "\n- " + option,
             ""
         );
-        //return firstString + secondString + "\n- " + thirdString;
     }
 
     return firstString + secondString + thirdString;
