@@ -26,9 +26,9 @@ export function TwoDice(): JSX.Element {
 
     return (
         <div>
-            <button onClick={rollLeftDie}>Roll Left</button>
+            <Button onClick={rollLeftDie}>Roll Left</Button>
             <span data-testid="left-die">{leftDie}</span>
-            <button onClick={rollRightDie}>Roll Right</button>
+            <Button onClick={rollRightDie}>Roll Right</Button>
             <span data-testid="right-die">{rightDie}</span>
             {leftDie === rightDie && leftDie === 1 && " You Lose"}
             {leftDie === rightDie && leftDie !== 1 && " You Win"}
