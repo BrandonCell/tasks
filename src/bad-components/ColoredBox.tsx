@@ -19,6 +19,9 @@ function ChangeColor({
 }
 
 function ColorPreview({
+    //won't let me submit unless setColorIndex is used but it doesn't need to be used and
+    //I can't add the colorInformation interface without it so I disabled the check for it
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setColorIndex,
     colorIndex
 }: colorInformation): JSX.Element {

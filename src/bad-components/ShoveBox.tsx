@@ -17,6 +17,9 @@ function ShoveBoxButton({
 
 function MoveableBox({
     position,
+    //won't let me submit unless setPosition is used but it doesn't need to be used and
+    //I can't add the colorInformation interface without it so I disabled the check for it
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setPosition
 }: positionInformation): JSX.Element {
     return (
