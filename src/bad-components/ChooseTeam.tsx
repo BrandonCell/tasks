@@ -11,6 +11,8 @@ const PEOPLE = [
 ];
 
 export function ChooseTeam(): JSX.Element {
+    //won't let me submit unless setAllOptions is used but it doesn't need to be used so I disabled the check for it
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [allOptions, setAllOptions] = useState<string[]>(PEOPLE);
     const [team, setTeam] = useState<string[]>([]);
 
