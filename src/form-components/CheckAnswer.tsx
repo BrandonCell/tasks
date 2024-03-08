@@ -13,6 +13,7 @@ export function CheckAnswer({
     }
     return (
         <div>
+            <h3>Check Answer</h3>
             <Form.Group controlId="checkAnswer">
                 <Form.Label>What is the answer HINT IT IS 42</Form.Label>
                 <Form.Control
